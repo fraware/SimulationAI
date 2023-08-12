@@ -12,7 +12,6 @@ In this project, we aim to develop a reinforcement learning (RL) agent capable o
 
 - **Model Architecture:** Our agent employs the DQN algorithm, which uses a deep neural network to approximate Q-values, representing the desirability of different actions. The network architecture takes the state representation as input and outputs action probabilities for making informed decisions.
 
-... (continue summarizing the rest of the project overview)
 
 ## Installation and Setup
 
@@ -22,11 +21,11 @@ In this project, we aim to develop a reinforcement learning (RL) agent capable o
    cd intersection-navigation-rl
 
 2. Install required packages:
-```txt
+   ```txt
    pip install -r requirements.txt
 
 4. Configure environment variables
-```py
+   ```py
    export API_KEY=your_google_maps_api_key
 
 ## Usage
