@@ -12,6 +12,21 @@ In this project, we aim to develop a reinforcement learning (RL) agent capable o
 
 - **Model Architecture:** Our agent employs the DQN algorithm, which uses a deep neural network to approximate Q-values, representing the desirability of different actions. The network architecture takes the state representation as input and outputs action probabilities for making informed decisions.
 
+- **Data Collection:** Using the Google Maps API, we conduct multiple simulations where the agent interacts with the environment. During each simulation, the agent chooses actions (turns) based on its current state and receives rewards based on successful navigation and adherence to predefined rules.
+
+- **Training Loop:** We implement a training loop that utilizes the collected data to update the DQN model. Experience replay and target networks stabilize training by improving data efficiency and mitigating issues related to time-correlated data.
+
+- **Exploration vs. Exploitation:** To balance exploration and exploitation, we employ exploration strategies such as epsilon-greedy or softmax exploration. These strategies encourage the agent to explore different actions while exploiting learned policies.
+
+- **Reward Design:** We design a reward function that guides the agent to take actions leading to successful navigation and rule adherence. Positive rewards are assigned for correct turns, while negative rewards discourage undesired behavior.
+
+- **Evaluation:** The trained DQN model is evaluated on test simulations to assess its performance. Success rate, average time to destination, and other metrics measure the agent's navigation skills and rule compliance.
+
+- **Fine-Tuning and Online Learning:** Hyperparameters are fine-tuned to optimize the model's performance. The model can be further improved through continuous online learning, adapting to changing conditions, and gaining experience from additional simulations.
+
+- **Deployment and Testing:** The trained DQN agent is deployed in the simulation environment, and its behavior is tested in diverse scenarios. The agent's ability to make informed decisions at intersections without getting blocked is demonstrated, meeting the project's overarching goal.
+
+By combining Google Maps API, Deep Reinforcement Learning algorithms, and careful design of the agent's architecture, reward system, and training process, we aim to develop an intelligent agent capable of navigating intersections effectively and successfully completing simulations without premature termination.
 
 ## Installation and Setup
 
@@ -59,6 +74,3 @@ We would like to thank the following libraries and resources:
 
 ## Contact
 If you have any questions, feedback, or issues, feel free to contact us.
-
-
-
