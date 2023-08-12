@@ -22,9 +22,11 @@ In this project, we aim to develop a reinforcement learning (RL) agent capable o
    cd intersection-navigation-rl
 
 2. Install required packages:
+```sh
 pip install -r requirements.txt
 
-3. Configure environment variables
+4. Configure environment variables
+   ```sh
 export API_KEY=your_google_maps_api_key
 
 ## Usage
@@ -32,6 +34,7 @@ To run the project and train the RL agent, follow these steps:
 
 1. Set up the environment as explained in the "Installation and Setup" section.
 2. Run the main simulation script:
+   ```sh
 python main.py
 3. Follow the prompts to choose the rule set and starting address.
 
