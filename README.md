@@ -46,16 +46,16 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ## Contributing
 We welcome contributions from the community. To contribute, follow these steps:
 
-Fork the repository.
-Create a new branch.
-Make your changes and commit them.
-Push to your fork and submit a pull request.
+- Fork the repository.
+- Create a new branch.
+- Make your changes and commit them.
+- Push to your fork and submit a pull request.
 
 ## Acknowledgments
 We would like to thank the following libraries and resources:
 
-Google Maps API
-TensorFlow
+- Google Maps API
+- TensorFlow
 
 ## Contact
 If you have any questions, feedback, or issues, feel free to contact us.
