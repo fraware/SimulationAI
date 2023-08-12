@@ -33,7 +33,7 @@ To run the project and train the RL agent, follow these steps:
 
 1. Set up the environment as explained in the "Installation and Setup" section.
 2. Run the main simulation script:
-```sh
+   ```sh
    python main.py
 3. Follow the prompts to choose the rule set and starting address.
 
