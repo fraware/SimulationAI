@@ -22,11 +22,11 @@ In this project, we aim to develop a reinforcement learning (RL) agent capable o
    cd intersection-navigation-rl
 
 2. Install required packages:
-```sh
+```txt
    pip install -r requirements.txt
 
 4. Configure environment variables
-```sh
+```py
    export API_KEY=your_google_maps_api_key
 
 ## Usage
