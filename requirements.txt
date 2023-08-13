@@ -1,0 +1,5 @@
+numpy==1.19.5
+tensorflow==2.5.0
+googlemaps==4.4.5
+matplotlib==3.4.2
+mlflow==1.17.0
