@@ -1,4 +1,4 @@
-# Simulation.AI: Intersection Navigation with Reinforcement Learning
+# Simulation.AI: Intersection Navigation with Deep Reinforcement Learning
 
 ![Project Logo](Project_Logo.png)
 
