@@ -4,62 +4,106 @@
 
 ## Project Overview
 
-In this project, we aim to develop a reinforcement learning (RL) agent capable of navigating intersections effectively while adhering to specific rules to avoid being blocked and prematurely ending simulations. The agent's goal is to reach a destination by making optimal turn decisions at intersections, even in complex scenarios. The project integrates the Google Maps API for environment simulation, data collection, and real-time learning. Our approach leverages the Deep Q-Network (DQN) algorithm and follows a systematic process:
+This project develops a reinforcement learning (RL) agent that navigates intersections by choosing turn actions (left, right, straight, back) while following a chosen rule set. The agent uses a Deep Q-Network (DQN) and a simulated environment backed by the Google Maps API (geocoding, directions, nearby places).
 
-- **State Representation:** We define a comprehensive state representation that encapsulates the agent's current location, direction, and relevant environment information. This representation forms the basis for the agent's decision-making process.
+- **State Representation:** Location, direction, and nearby streets are encoded into a fixed-size state vector used for decisions.
 
-- **RL Environment:** We create a dynamic RL environment that simulates driving scenarios. The environment generates observations (states) based on the agent's location and provides rewards for each action (turn) taken. Termination conditions are defined to ensure the agent doesn't prematurely conclude simulations.
+- **RL Environment:** The environment produces observations from the agent’s location, assigns rewards for rule-compliant turns, and terminates after a set number of intersections.
 
-- **Model Architecture:** Our agent employs the DQN algorithm, which uses a deep neural network to approximate Q-values, representing the desirability of different actions. The network architecture takes the state representation as input and outputs action probabilities for making informed decisions.
+- **Model:** A DQN with a target network approximates Q-values; the agent acts via an epsilon-greedy policy.
 
-- **Data Collection:** Using the Google Maps API, we conduct multiple simulations where the agent interacts with the environment. During each simulation, the agent chooses actions (turns) based on its current state and receives rewards based on successful navigation and adherence to predefined rules.
+- **Training:** Experience replay and periodic target updates are used for stability.
 
-- **Training Loop:** We implement a training loop that utilizes the collected data to update the DQN model. Experience replay and target networks stabilize training by improving data efficiency and mitigating issues related to time-correlated data.
+- **Evaluation:** The trained model is evaluated on test episodes (success rate, average time to destination).
 
-- **Exploration vs. Exploitation:** To balance exploration and exploitation, we employ exploration strategies such as epsilon-greedy or softmax exploration. These strategies encourage the agent to explore different actions while exploiting learned policies.
-
-- **Reward Design:** We design a reward function that guides the agent to take actions leading to successful navigation and rule adherence. Positive rewards are assigned for correct turns, while negative rewards discourage undesired behavior.
-
-- **Evaluation:** The trained DQN model is evaluated on test simulations to assess its performance. Success rate, average time to destination, and other metrics measure the agent's navigation skills and rule compliance.
-
-- **Fine-Tuning and Online Learning:** Hyperparameters are fine-tuned to optimize the model's performance. The model can be further improved through continuous online learning, adapting to changing conditions, and gaining experience from additional simulations.
-
-- **Deployment and Testing:** The trained DQN agent is deployed in the simulation environment, and its behavior is tested in diverse scenarios. The agent's ability to make informed decisions at intersections without getting blocked is demonstrated, meeting the project's overarching goal.
-
-By combining Google Maps API, Deep Reinforcement Learning algorithms, and careful design of the agent's architecture, reward system, and training process, we aim to develop an intelligent agent capable of navigating intersections effectively and successfully completing simulations without premature termination.
+- **Demo:** A script lets you pick a rule (right-only, left-only, alternate) and run a driving simulation with the trained model.
 
 ## Installation and Setup
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-username/intersection-navigation-rl.git
-   cd intersection-navigation-rl
+   git clone <repository-url>
+   cd inter-sim-rl
+   ```
 
-2. Install required packages:
-   ```txt
+2. Install dependencies:
+   ```sh
    pip install -r requirements.txt
+   ```
+   Or install the package in editable mode with dev dependencies:
+   ```sh
+   pip install -e ".[dev]"
+   ```
 
-4. Configure environment variables
-   ```py
-   export API_KEY=your_google_maps_api_key
+3. Set the Google Maps API key (required for training and demo). Replace `<key>` with your key:
+   ```sh
+   export API_KEY=<key>
+   ```
+   On Windows (PowerShell):
+   ```powershell
+   $env:API_KEY = "<key>"
+   ```
+   You can also set `GOOGLE_MAPS_API_KEY` instead of `API_KEY`.
+
+## Configuration
+
+- **API key:** Set the `API_KEY` or `GOOGLE_MAPS_API_KEY` environment variable. The app raises an error at startup if the key is missing or invalid.
+
+- **Paths and hyperparameters:** Defaults are in `inter_sim_rl.config.Config`. You can override them in code or by extending the config (e.g. model save directory, number of simulations, epsilon, batch size, gamma, target update frequency). Model and output directories default to `models/` and `output/` under the project root.
+
+- **Reproducibility:** Set `Config.seed` to an integer before training to fix random seeds (Python, NumPy, TensorFlow) for reproducible runs.
 
 ## Usage
-To run the project and train the RL agent, follow these steps:
 
-1. Set up the environment as explained in the "Installation and Setup" section.
-2. Run the main simulation script:
-   ```sh
-   python main.py
-3. Follow the prompts to choose the rule set and starting address.
+- **Demo (default):** Run the script and choose a rule set; then a trained model is loaded and a driving simulation is run. You must have trained a model once (see below) and set the API key.
+  ```sh
+  python main.py
+  ```
+
+- **Training and evaluation:** To train the DQN and then run evaluation, use:
+  ```sh
+  python main.py --train
+  ```
+  This runs the full training loop, saves the model under `models/`, and then runs the test evaluation. Ensure the API key is set.
+
+## Development
+
+- **Run tests:**
+  ```sh
+  pytest tests -v
+  ```
+
+- **Lint:**
+  ```sh
+  ruff check inter_sim_rl main.py tests
+  ```
+
+- **Format:**
+  ```sh
+  ruff format inter_sim_rl main.py tests
+  ```
+
+- **Install dev dependencies:** `pip install -e ".[dev]"` installs pytest and ruff.
+
+## Architecture
+
+- **State:** `StateRepresentation` holds location, direction, nearby streets, and optional address/instruction; `get_state_vector()` returns a fixed-size vector.
+
+- **Environment:** `RLEnvironment` initializes from a starting address, steps via actions (using the Maps API for transitions), and computes rewards from the chosen rule (right, left, or alternate).
+
+- **Agent:** `DQNModel` provides the main and target networks; the training loop in `main.py` collects transitions, samples batches, and updates the DQN with Bellman targets.
+
+- **Demo:** The `simulate_driving_*` functions in `inter_sim_rl.driving_directions` use the same state vector format and action space as training so the saved model can be used for inference.
 
 ## Documentation
-For detailed documentation and explanations of each component, refer to the documentation folder.
+
+For component-level details, see the docstrings in `inter_sim_rl` (e.g. `config.py`, `state_representation.py`, `rl_environment.py`, `dqn_model.py`, `driving_directions.py`).
 
 ## License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Contributing
-We welcome contributions from the community. To contribute, follow these steps:
 
 - Fork the repository.
 - Create a new branch.
@@ -67,10 +111,10 @@ We welcome contributions from the community. To contribute, follow these steps:
 - Push to your fork and submit a pull request.
 
 ## Acknowledgments
-We would like to thank the following libraries and resources:
 
 - Google Maps API
 - TensorFlow
 
 ## Contact
+
 If you have any questions, feedback, or issues, feel free to contact us.

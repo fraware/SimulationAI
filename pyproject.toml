@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inter-sim-rl"
+version = "0.1.0"
+description = "DQN-based intersection navigation agent with Google Maps environment"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.19.5,<3",
+    "tensorflow>=2.5,<3",
+    "googlemaps>=4.4.5",
+    "matplotlib>=3.4",
+    "mlflow>=1.17",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+    "ruff>=0.1",
+]
+
+[project.scripts]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["inter_sim_rl*"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
